@@ -32,12 +32,14 @@ function Install-Inspec {
         $Inspec_Download_Uri = "https://packages.chef.io/files/stable/inspec/$InSpec_Package_Version/windows/2016/$Inspec_Package_Name"
         
         Write-Output "[$((get-date).getdatetimeformats()[45])] Downloading InSpec to $pwd\$Inspec_Package_Name"
-        Invoke-WebRequest -Uri $Inspec_Download_Uri -TimeoutSec 120 -RetryIntervalSec 5 -MaximumRetryCount 12 -OutFile "$pwd\$Inspec_Package_Name"
+        #Invoke-WebRequest -Uri $Inspec_Download_Uri -TimeoutSec 120 -RetryIntervalSec 5 -MaximumRetryCount 12 -OutFile "$pwd\$Inspec_Package_Name"
         
         $msiArguments = @(
-            "/i"
+            '/i'
             ('"{0}"' -f "$pwd\$Inspec_Package_Name")
-            "/qn"
+            '/qn'
+            "/L*v `"$pwd\$Inspec_Package_Name.log`""
+            "INSTALLLOCATION=`"$pwd`""
         )
         Write-Output "[$((get-date).getdatetimeformats()[45])] Installing InSpec with arguments: $msiArguments"
         Start-Process "C:\Windows\System32\msiexec.exe" -ArgumentList $msiArguments -Wait -NoNewWindow

@@ -1,2 +1,6 @@
 inspec-4.3.2-1-x64.msi
+inspec-4.3.2-1-x64.msi.log
+inspec.zip
+testprofiles/*
+inspec/*
 scratch.*
