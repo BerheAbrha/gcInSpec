@@ -1,4 +1,21 @@
 
+# gcInSpec module (BETA)
+
+This project offers a community supported module for
+[Azure Policy Guest Configuration](https://aka.ms/gcpol)
+to audit virtual machines in Azure using custom InSpec profiles.
+
+Since custom InSpec content is already supported for Linux,
+this module will focus on audit of nodes running Windows.
+In the future, a single module should be compatible with either Windows or Linux,
+greatly simplifying the scenario of using custom profiles.
+
+For more information on using custom content
+with Azure Policy for auditing in-guest settings,
+see the
+[Request for Comments](https://github.com/microsoft/rfc_customguestconfig)
+project repository.
+
 # Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a

@@ -53,7 +53,7 @@ function Install-Inspec {
     $Inspec_Download_Uri = "https://packages.chef.io/files/stable/inspec/$InSpec_Package_Version/windows/2016/$Inspec_Package_Name"
         
     Write-Verbose "[$((get-date).getdatetimeformats()[45])] Downloading InSpec to $script:guest_assignment_folder\$Inspec_Package_Name"
-    Invoke-WebRequest -Uri $Inspec_Download_Uri -TimeoutSec 120 -OutFile "$script:guest_assignment_folder\$Inspec_Package_Name" #-RetryIntervalSec 5 -MaximumRetryCount 12 
+    Invoke-WebRequest -Uri $Inspec_Download_Uri -TimeoutSec 120 -OutFile "$script:guest_assignment_folder\$Inspec_Package_Name" # -RetryIntervalSec 5 -MaximumRetryCount 12 
         
     $msiArguments = @(
         '/i'
@@ -131,7 +131,7 @@ function ConvertFrom-InSpec {
     
     # get JSON file containing InSpec output
     Write-Verbose "[$((get-date).getdatetimeformats()[45])] Reading json output from $inspec_output_file_path" 
-    $inspecResults = Get-Content $inspec_output_file_path | ConvertFrom-Json #-Depth 10
+    $inspecResults = Get-Content $inspec_output_file_path | ConvertFrom-Json # -Depth 10
     
     # get raw content from CLI file
     Write-Verbose "[$((get-date).getdatetimeformats()[45])] Reading cli output from $inspec_cli_output_file_path" 
@@ -194,7 +194,7 @@ function ConvertFrom-InSpec {
 
         Write-Verbose "[$((get-date).getdatetimeformats()[45])] Control reason phrases: $reason_phrase)"
 
-        # each control object (this might not be needed?)
+        # each control object (future use)
         $controls += New-Object -TypeName PSObject -Property @{
             id             = $control.id
             profile_id     = $control.profile_id
@@ -205,16 +205,16 @@ function ConvertFrom-InSpec {
             reason_phrase  = $reason_phrase
         }
 
-        $reasons += New-Object -TypeName PSObject -Property @{
-            code    = $control.code_desc
-            phrase  = $control.reason_phrase
+        $reasons += @{
+            Code    = "gcInSpec:gcInSpec:InSpecPolicyNotCompliant"
+            Phrase  = $control.reason_phrase
         }
     }
 
     # the overall status is based on any control being failed
     $status = if ($true -eq $is_compliant) { 'Compliant' } else { 'Non-Compliant' }
 
-    # parent object containing all info including raw output
+    # parent object containing all info including raw output (future use)
     $inspecObject = New-Object -TypeName PSObject -Property @{
         version        = $inspecResults.version
         statistics     = $statistics
@@ -245,16 +245,10 @@ class gcInSpec {
     [version]$version = $Script:Supported_InSpec_Version
 
     [DscProperty(NotConfigurable)]
-    [string]$statistics
-
-    [DscProperty(NotConfigurable)]
     [string]$status
 
     [DscProperty(NotConfigurable)]
-    [string]$reasons
-
-    [DscProperty(NotConfigurable)]
-    [string]$results
+    [string]$Reasons
 
     <#
         This function is not implemented for Audit scenarios.
@@ -305,11 +299,10 @@ class gcInSpec {
         
         $get = ConvertFrom-InSpec @ConvertArgs
         
-        $this.version       = $Installed_InSpec_Versions
-        $this.statistics    = $get.statistics
-        $this.status        = $get.status
-        $this.reasons       = $get.reasons
-        $this.results       = $get.cli
+        $this.name      = $this.name
+        $this.version   = $Installed_InSpec_Versions
+        $this.status    = $get.status
+        $this.Reasons   = $get.reasons
         return $this
     }
 }
