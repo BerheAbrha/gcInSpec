@@ -3,7 +3,9 @@
 
 This project offers a community supported module for
 [Azure Policy Guest Configuration](https://aka.ms/gcpol)
-to audit virtual machines in Azure using custom InSpec profiles.
+to audit virtual machines in Azure using custom
+[InSpec](https://inspec.io)
+profiles.
 
 Since custom InSpec content is already supported for Linux,
 this module will focus on audit of nodes running Windows.
