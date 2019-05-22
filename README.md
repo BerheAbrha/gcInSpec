@@ -3,12 +3,27 @@
 
 This project offers a community supported module for
 [Azure Policy Guest Configuration](https://aka.ms/gcpol)
-to audit virtual machines in Azure using custom InSpec profiles.
+to audit virtual machines in Azure using custom
+[InSpec](https://inspec.io)
+profiles.
 
-Since custom InSpec content is already supported for Linux,
+Since custom InSpec content is already functional for Linux,
 this module will focus on audit of nodes running Windows.
 In the future, a single module should be compatible with either Windows or Linux,
 greatly simplifying the scenario of using custom profiles.
+
+The benefit of combining your InSpec profiles with Azure Policy
+is gaining the ability to automatically audit all virtual machines
+across management groups (many subscriptions).
+Results are available from the Guest Configuration resource provider,
+which we hope to validate with Chef Automate
+(community assistance would be greatly appreciated).
+
+Attribute support for Windows is currently work in progress
+however it is functional for Linux using the native provider.
+This means that parameters for InSpec are
+actually provided at run time by the parameters
+given in the ARM deployment files.
 
 For more information on using custom content
 with Azure Policy for auditing in-guest settings,
