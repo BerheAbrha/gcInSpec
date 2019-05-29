@@ -9,7 +9,7 @@ profiles.
 
 Since custom InSpec content is already functional for Linux,
 this module will focus on audit of nodes running Windows.
-In the future, a single module should be compatible with either Windows or Linux,
+In the future, a single module should be compatible with both Windows and Linux,
 greatly simplifying the scenario of using custom profiles.
 
 The benefit of combining your InSpec profiles with Azure Policy
