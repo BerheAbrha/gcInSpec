@@ -1,0 +1,29 @@
+{
+    "controls": [
+        {
+            "id": "wmi_service",
+            "profile_id": "var_release_environment",
+            "profile_sha256": "343dd8f7c6d5dd0f9e74003f12af88d4f525d0bf24f3fdcebd038976f01ad196",
+            "status": "passed",
+            "code_desc": "Service winmgmt should be installed"
+        },
+        {
+            "id": "wmi_service",
+            "profile_id": "var_release_environment",
+            "profile_sha256": "343dd8f7c6d5dd0f9e74003f12af88d4f525d0bf24f3fdcebd038976f01ad196",
+            "status": "passed",
+            "code_desc": "Service winmgmt should be enabled"
+        },
+        {
+            "id": "wmi_service",
+            "profile_id": "var_release_environment",
+            "profile_sha256": "343dd8f7c6d5dd0f9e74003f12af88d4f525d0bf24f3fdcebd038976f01ad196",
+            "status": "passed",
+            "code_desc": "Service winmgmt should be running"
+        }
+    ],
+    "statistics": {
+        "duration": 2.531211
+    },
+    "version": "3.9.3"
+}

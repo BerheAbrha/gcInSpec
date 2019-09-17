@@ -1,0 +1,13 @@
+
+Profile: Verify environment variable release_environment (var_release_environment)
+Version: 1.0.0
+Target:  local://
+
+[0;1;32m  [PASS]  wmi_service: Verify windows service: winmgmt[0m
+[0;1;32m     [PASS]  Service winmgmt should be installed[0m
+[0;1;32m     [PASS]  Service winmgmt should be enabled[0m
+[0;1;32m     [PASS]  Service winmgmt should be running[0m
+
+
+Profile Summary: [0;1;32m1 successful control[0m, 0 control failures, 0 controls skipped
+Test Summary: [0;1;32m3 successful[0m, 0 failures, 0 skipped
