@@ -1,5 +1,5 @@
 
-# gcInSpec module (BETA)
+# gcInSpec module
 
 This project offers a community supported module for
 [Azure Policy Guest Configuration](https://aka.ms/gcpol)

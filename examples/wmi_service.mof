@@ -1,0 +1,17 @@
+instance of gcInSpec as $gcInSpec
+{
+    ResourceID = "[gcInSpec]wmi_service";
+    SourceInfo = "::1::56::gcinspec";
+    Name = "wmi_service";
+    ModuleName = "gcInSpec";
+    ModuleVersion = "1.0.0.0";
+    ConfigurationName = "wmi_service";
+};
+
+instance of OMI_ConfigurationDocument
+{
+    Version = "2.0.0";
+    MinimumCompatibleVersion = "1.0.0";
+    CompatibleVersionAdditionalProperties = {"Omi_BaseResource:ConfigurationName"};
+    Name = "wmi_service";
+};

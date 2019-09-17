@@ -13,7 +13,7 @@ function Get-InstalledInSpecVersions {
 
     Write-Verbose "[$((get-date).getdatetimeformats()[45])] Checking for InSpec..."
     
-    $Installed_InSpec = Get-CimInstance win32_product -Filter "Name LIKE 'InSpec%'"
+    $Installed_InSpec = Get-CimInstance -ClassName win32_product -Filter "Name LIKE 'InSpec%'"
     $Installed_InSpec_Version = $Installed_InSpec.Version
     $Installed_InSpec = if ($null -eq $Installed_InSpec_Version) { $false } else { $true }
     
@@ -40,12 +40,19 @@ function Install-Inspec {
     [cmdletbinding()]
     param(
         [Parameter(Mandatory = $true)]
-        [version]$InSpec_Version
-    )
+        [version]$InSpec_Version,
+
+        [Parameter(Mandatory = $true)]
+        [ValidateSet('2012r2','2016','2019')]
+        # '2012r2' aligns to Windows 10
+        [string]$OS_Release
+        )
     
     $InSpec_Package_Version = "$($InSpec_Version.Major).$($InSpec_Version.Minor).$($InSpec_Version.Build)"
-    $Inspec_Package_Name = "inspec-$InSpec_Package_Version-$($InSpec_Version.Revision)-x64.msi"
-    $Inspec_Download_Uri = "https://packages.chef.io/files/stable/inspec/$InSpec_Package_Version/windows/2016/$Inspec_Package_Name"
+    # the url requires a revision number. an example would be '3.9.3.1'. let's set this if the user doesn't provide it since it is not included in the display text on the download page for InSpec. the first revision is '1'.
+    $Inspec_Package_Name = "inspec-$InSpec_Package_Version$($InSpec_Version.Revision)-x64.msi"
+    $Inspec_Download_Uri = "https://packages.chef.io/files/stable/inspec/$InSpec_Package_Version/windows/$OS_Release/$Inspec_Package_Name"
+    Write-Verbose "download url: $Inspec_Download_Uri"
         
     Write-Verbose "[$((get-date).getdatetimeformats()[45])] Downloading InSpec to $gcinspec_module_folder_path\$Inspec_Package_Name"
     Invoke-WebRequest -Uri $Inspec_Download_Uri -TimeoutSec 120 -OutFile "$env:windir\temp\$Inspec_Package_Name"
@@ -57,7 +64,7 @@ function Install-Inspec {
         "/L*v `"$env:windir\temp\$Inspec_Package_Name.log`""
     )
     Write-Verbose "[$((get-date).getdatetimeformats()[45])] Installing InSpec with arguments: $msiArguments"
-    Start-Process "C:\Windows\System32\msiexec.exe" -ArgumentList $msiArguments -Wait -NoNewWindow
+    Start-Process -FilePath 'C:\Windows\System32\msiexec.exe' -ArgumentList $msiArguments -Wait -NoNewWindow
     Write-Verbose "[$((get-date).getdatetimeformats()[45])] InSpec installation process ended"
 }
 
@@ -76,6 +83,8 @@ function Invoke-InSpec {
         [string]$inspec_profile_path,
         [string]$attributes_file_path
     )
+
+    # InSpec prefers paths with no spaces
     
     # path to the inspec bat file
     $InSpec_Exec_Path = "$env:SystemDrive\opscode\inspec\bin\inspec.bat"
@@ -84,18 +93,14 @@ function Invoke-InSpec {
 SET HOMEDRIVE=%SystemDrive%
 "%~dp0..\embedded\bin\ruby.exe" "%~dpn0" %*
 "@ | Set-Content $InSpec_Exec_Path
-
-    # TEMP this can be an issue when testing in Windows PowerShell, InSpec does not like spaces in paths
-    foreach ($path in ($inspec_profile_path,$attributes_file_path)) {
-        $path = $path -replace 'Program Files', 'progra~1'
-    }
-    
-    $name = (Get-ChildItem $inspec_profile_path).Parent.Name
+      
+    $name = (Get-ChildItem -Path $inspec_profile_path).Parent.Name
 
     $run_inspec_exec_arguements = @(
         "exec $inspec_profile_path"
         "--reporter=json-min:$inspec_profile_path$name.json cli:$inspec_profile_path$name.cli"
-        "--chef-license=accept"
+        # the license accept parameter might have issues in some versions?  it is not needed in 3.9.3.
+        # "--chef-license=accept"
     )
 
     # add attributes reference if input is provided
@@ -104,7 +109,7 @@ SET HOMEDRIVE=%SystemDrive%
     }
 
     Write-Verbose "[$((get-date).getdatetimeformats()[45])] Starting the InSpec process with the command $InSpec_Exec_Path $run_inspec_exec_arguements" 
-    Start-Process $InSpec_Exec_Path -ArgumentList $run_inspec_exec_arguements -Wait -NoNewWindow
+    Start-Process -FilePath $InSpec_Exec_Path -ArgumentList $run_inspec_exec_arguements -Wait -NoNewWindow
 }
 
 <#
@@ -123,7 +128,7 @@ function ConvertFrom-InSpec {
         [string]$inspec_output_path
     )
     
-    $name = (Get-ChildItem $inspec_output_path).Parent.Name
+    $name = (Get-Item $inspec_output_path).Name
     $json = "$inspec_output_path$name.json"
     $cli = "$inspec_output_path$name.cli"
 
@@ -164,13 +169,13 @@ function ConvertFrom-InSpec {
     Write-Verbose "[$((get-date).getdatetimeformats()[45])] Overall status: $($profile_compliant)"
 
     $reasons += @{
-        Code    = "gcInSpec:gcInSpec:InSpecRawOutput"
+        Code    = 'gcInSpec:gcInSpec:InSpecRawOutput'
         Phrase  = $inspecCli
     }
 
     $inspec = @{
         name    = $name
-        version = $Installed_InSpec_Version
+        version = $inspecJson.version
         status  = $profile_compliant
         reasons = $reasons
     }
@@ -190,17 +195,22 @@ function Get-TargetResource {
         [Parameter(Mandatory = $true)]
         [ValidateNotNullOrEmpty()]
         [String]
-        $version
+        $version,
+
+        [Parameter(Mandatory = $true)]
+        [ValidateSet('2012r2','2016','2019')]
+        # '2012r2' aligns to Windows 10
+        [string]$OS_Release
     )
 
     Write-Verbose "[$((get-date).getdatetimeformats()[45])] required InSpec version: $version"
 
     $Installed_InSpec_Version = (Get-InstalledInSpecVersions).version
     if ($Installed_InSpec_Version -ne $version) {
-        Install-Inspec $version
+        Install-Inspec $version $OS_Release
     }
 
-    $inspec_profile_path = "C:\ProgramData\GuestConfig\Configuration\$name\Modules\$name\"
+    $inspec_profile_path = "$env:SystemDrive:\ProgramData\GuestConfig\Configuration\$name\Modules\$name\"
 
     Invoke-InSpec $inspec_profile_path
     $inspec = ConvertFrom-InSpec $inspec_profile_path
@@ -228,10 +238,15 @@ function Test-TargetResource {
         [Parameter(Mandatory = $true)]
         [ValidateNotNullOrEmpty()]
         [String]
-        $version
+        $version,
+        
+        [Parameter(Mandatory = $true)]
+        [ValidateSet('2012r2','2016','2019')]
+        # '2012r2' aligns to Windows 10
+        [string]$OS_Release
     )
 
-    $status = (Get-TargetResource -name $name -version $version).status
+    $status = (Get-TargetResource -name $name -version $version -OS_Release $OS_Release).status
     return $status
 }
 
@@ -247,7 +262,12 @@ function Set-TargetResource {
         [Parameter(Mandatory = $true)]
         [ValidateNotNullOrEmpty()]
         [String]
-        $version
+        $version,
+
+        [Parameter(Mandatory = $true)]
+        [ValidateSet('2012r2','2016','2019')]
+        # '2012r2' aligns to Windows 10
+        [string]$OS_Release
     )
 
     throw 'Set functionality is not supported in this version of the DSC resource.'

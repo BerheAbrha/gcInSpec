@@ -1,0 +1,9 @@
+name: var_release_environment
+title: Verify environment variable release_environment
+maintainer: Microsoft Corporation
+summary: Validates that the system environment variable named release_environment matches a list of allowed values
+copyright: Microsoft Corporation
+license: MIT
+version: 1.0.0
+supports:
+  - os-family: windows
