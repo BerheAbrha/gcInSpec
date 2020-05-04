@@ -1,0 +1,113 @@
+pr:
+  autoCancel: 'true'
+  branches:
+    include:
+      - master
+  paths:
+    exclude:
+    - azure-pipelines.yml
+    - README.md
+    - CODE_OF_CONDUCT.md
+    - SECURITY.md
+    - LICENSE
+    - .gitignore
+    - .github/*
+    - package
+    - scratch.*
+  
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - azure-pipelines.yml
+    - README.md
+    - CODE_OF_CONDUCT.md
+    - SECURITY.md
+    - LICENSE
+    - .gitignore
+    - .github/*
+    - package
+    - scratch.*
+
+jobs:
+  - job: Test
+    strategy:
+      matrix:
+        running cmdlets from Ubuntu 18.04:
+          imageName: ubuntu-18.04
+        running cmdlets from Ubuntu 16.04:
+          imageName: ubuntu-16.04
+        running cmdlets from macOS Mojave:
+          imageName: macOS-10.14
+        running cmdlets from macOS Catalina:
+          imageName: macOS-10.15
+        running cmdlets from Windows 2019:
+          imageName: windows-2019
+        running cmdlets from Windows 2016:
+          imageName: vs2017-win2016
+    pool:
+      vmImage: $(imageName)
+    steps:
+      - task: PowerShell@2
+        displayName: Install modules
+        inputs:
+          pwsh: 'true'
+          targetType: inline
+          failOnStderr: true
+          errorActionPreference: stop
+          script: |
+            $modules = (Import-PowerShellDataFile "$env:BUILD_SOURCESDIRECTORY/GuestConfiguration.psd1").RequiredModules
+            $modules += @('PSScriptAnalyzer')
+            Install-Module -Name $modules -Force
+      - task: PowerShell@2
+        enabled: 'true'
+        displayName: Install Pester v5
+        inputs:
+          pwsh: 'true'
+          targetType: inline
+          failOnStderr: true
+          errorActionPreference: stop
+          script: |
+            Install-Module -Name 'Pester' -Force -AllowPreRelease
+      - task: PowerShell@2
+        enabled: 'true'
+        displayName: Pester v5 unit tests
+        inputs:
+          pwsh: 'true'
+          targetType: inline
+          failOnStderr: true
+          errorActionPreference: stop
+          script: |
+            Invoke-Pester -CI
+      - task: PublishTestResults@2
+        condition: succeededOrFailed()
+        displayName: Publish test result
+        inputs:
+          testResultsFormat: NUnit
+          testResultsFiles: 'testResults.xml'
+  - job: PublishArtifactToAzureDevOpsBuild
+    dependsOn: Test
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+      - task: PowerShell@2
+        displayName: Stage module artifact
+        inputs:
+          pwsh: 'true'
+          targetType: inline
+          failOnStderr: true
+          errorActionPreference: stop
+          script: |
+            Install-Module 'GuestConfiguration' -Repository 'PSGallery' -Force
+            $moduleName = 'gcInSpec'
+            New-Item $env:BUILD_ARTIFACTSTAGINGDIRECTORY/$moduleName -type Directory
+            Copy-Item -Path $env:BUILD_SOURCESDIRECTORY/DscResources -Destination $env:BUILD_ARTIFACTSTAGINGDIRECTORY/$moduleName/DscResources -Recurse
+            Copy-Item -Path $env:BUILD_SOURCESDIRECTORY/$moduleName.psd1 -Destination $env:BUILD_ARTIFACTSTAGINGDIRECTORY/$moduleName/$moduleName.psd1
+            Copy-Item -Path $env:BUILD_SOURCESDIRECTORY/LICENSE -Destination $env:BUILD_ARTIFACTSTAGINGDIRECTORY/$moduleName/LICENSE
+      - task: PublishPipelineArtifact@1
+        displayName: Publish artifact
+        inputs:
+          targetPath: '$(Build.ArtifactStagingDirectory)/gcInSpec'
+          artifactName: gcInSpec

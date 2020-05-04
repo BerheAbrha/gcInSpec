@@ -10,7 +10,7 @@ class gcInSpec : OMI_BaseResource
 {
     [Key, Description("Name of the InSpec profile")] String InSpecProfileName;
     [Required, Description("The version of InSpec that is expected to be installed")] String InSpecVersion;
-    [Write, Description("The version of Windows where the test will be executed (InSpec support is specific to Windows versions)"), ValueMap{"2012r2","2016","2019"}, Values{"2012r2","2016","2019"}] String WindowsServerVersion;
+    [Required, Description("The version of Windows where the test will be executed (InSpec support is specific to Windows versions)"), ValueMap{"2012r2","2016","2019"}, Values{"2012r2","2016","2019"}] String WindowsServerVersion;
     [Read, Description("Compliance Status returned from InSpec")] Boolean Status;
     [Read, EmbeddedInstance("Reason")] String Reasons[];
 };

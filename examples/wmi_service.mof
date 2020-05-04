@@ -1,18 +1,19 @@
-instance of gcInSpec as $gcInSpec
+instance of gcInSpec as $gcInSpec1ref
 {
-    ResourceID = "[gcInSpec]wmi_service";
-    SourceInfo = "::1::56::gcinspec";
-    ProfileName = "wmi_service";
-    InSpecVersion = "3.9.3"
-    ModuleName = "gcInSpec";
-    ModuleVersion = "1.1.0";
-    ConfigurationName = "wmi_service";
+ResourceID = "[gcInSpec]wmi_service";
+ WindowsServerVersion = "2019";
+ SourceInfo = "/Users/migreene/Git/gcinspec/examples/wmi_service.ps1::6::9::gcInSpec";
+ InSpecProfileName = "wmi_service";
+ ModuleName = "gcinspec";
+ ModuleVersion = "2.0.0";
+ InSpecVersion = "3.9.3";
+ConfigurationName = "wmi_service";
 };
-
 instance of OMI_ConfigurationDocument
+
 {
-    Version = "2.0.0";
+    Version="2.0.0";
     MinimumCompatibleVersion = "1.0.0";
-    CompatibleVersionAdditionalProperties = {"Omi_BaseResource:ConfigurationName"};
-    Name = "wmi_service";
+    CompatibleVersionAdditionalProperties= {"Omi_BaseResource:ConfigurationName"};
+    Name="wmi_service";
 };

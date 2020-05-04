@@ -36,7 +36,7 @@ Description = 'Audits settings based on InSpec profile and returns results. Plea
 PowerShellVersion = '5.1'
 
 # Modules that must be imported into the global environment prior to importing this module
-RequiredModules = @(@{ModuleName='GuestConfiguration';ModuleVersion='1.20.0'})
+RequiredModules = @(@{ModuleName='GuestConfiguration';ModuleVersion='1.20.1'})
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
 FunctionsToExport = ''
