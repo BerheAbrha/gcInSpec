@@ -94,7 +94,7 @@ jobs:
             Install-Module 'GuestConfiguration' -Repository 'PSGallery' -Force
             $moduleName = 'gcInSpec'
             New-Item $env:BUILD_ARTIFACTSTAGINGDIRECTORY/$moduleName -type Directory
-            Copy-Item -Path $env:BUILD_SOURCESDIRECTORY/DscResources -Destination $env:BUILD_ARTIFACTSTAGINGDIRECTORY/$moduleName/DscResources -Recurse
+            Copy-Item -Path $env:BUILD_SOURCESDIRECTORY/DSCResources -Destination $env:BUILD_ARTIFACTSTAGINGDIRECTORY/$moduleName/DSCResources -Recurse
             Copy-Item -Path $env:BUILD_SOURCESDIRECTORY/$moduleName.psd1 -Destination $env:BUILD_ARTIFACTSTAGINGDIRECTORY/$moduleName/$moduleName.psd1
             Copy-Item -Path $env:BUILD_SOURCESDIRECTORY/LICENSE -Destination $env:BUILD_ARTIFACTSTAGINGDIRECTORY/$moduleName/LICENSE
       - task: PublishPipelineArtifact@1
