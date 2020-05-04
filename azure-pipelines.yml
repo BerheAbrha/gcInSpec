@@ -58,7 +58,7 @@ jobs:
           failOnStderr: true
           errorActionPreference: stop
           script: |
-            $modules = (Import-PowerShellDataFile "$env:BUILD_SOURCESDIRECTORY/GuestConfiguration.psd1").RequiredModules
+            $modules = (Import-PowerShellDataFile "$env:BUILD_SOURCESDIRECTORY/gcInSpec.psd1").RequiredModules
             $modules += @('PSScriptAnalyzer')
             Install-Module -Name $modules -Force
       - task: PowerShell@2
