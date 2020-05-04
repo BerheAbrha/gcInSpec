@@ -50,7 +50,7 @@ function Install-InSpec {
     
     $InSpecPackage_Version = "$($InSpecVersion.Major).$($InSpecVersion.Minor).$($InSpecVersion.Build)"
     # the url requires a revision number. an example would be '3.9.3.1'. let's set this if the user doesn't provide it since it is not included in the display text on the download page for InSpec. the first revision is '1'.
-    $InSpecPackage_Name = "InSpec-$InSpecPackage_Version$($InSpecVersion.Revision)-x64.msi"
+    $InSpecPackage_Name = "inspec-$InSpecPackage_Version$($InSpecVersion.Revision)-x64.msi"
     $InSpecDownloadUri = "https://packages.chef.io/files/stable/inspec/$InSpecPackage_Version/windows/$WindowsServerVersion/$InSpecPackage_Name"
     Write-Verbose "download url: $InSpecDownloadUri"
     

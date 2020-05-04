@@ -1,7 +1,7 @@
-name: var_release_environment
-title: Verify environment variable release_environment
+name: wmi_service
+title: Verify WMI service is running
 maintainer: Microsoft Corporation
-summary: Validates that the system environment variable named release_environment matches a list of allowed values
+summary: Validates that the Windows Service 'winmgmt' is running
 copyright: Microsoft Corporation
 license: MIT
 version: 1.0.0
