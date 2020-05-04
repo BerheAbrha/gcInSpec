@@ -91,7 +91,7 @@ jobs:
           failOnStderr: true
           errorActionPreference: stop
           script: |
-            Install-Module 'GuestConfiguration' -Repository 'PSGallery' -Force
+            Install-Module 'GuestConfiguration' -Repository 'PSGallery' -AllowPreRelease -Force
             $moduleName = 'gcInSpec'
             New-Item $env:BUILD_ARTIFACTSTAGINGDIRECTORY/$moduleName -type Directory
             Copy-Item -Path $env:BUILD_SOURCESDIRECTORY/DSCResources -Destination $env:BUILD_ARTIFACTSTAGINGDIRECTORY/$moduleName/DSCResources -Recurse
