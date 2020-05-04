@@ -35,10 +35,11 @@ jobs:
   - job: Test
     strategy:
       matrix:
-        running cmdlets from Ubuntu 18.04:
-          imageName: ubuntu-18.04
-        running cmdlets from Ubuntu 16.04:
-          imageName: ubuntu-16.04
+        # Linux error for dev environment likely due to libmi issue
+        #running cmdlets from Ubuntu 18.04:
+          #imageName: ubuntu-18.04
+        #running cmdlets from Ubuntu 16.04:
+          #imageName: ubuntu-16.04
         running cmdlets from macOS Mojave:
           imageName: macOS-10.14
         running cmdlets from macOS Catalina:
