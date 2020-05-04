@@ -56,7 +56,12 @@ function Install-InSpec {
     
     $outFile = "$Env:TEMP/$InSpecPackage_Name"
     Write-Verbose "[$((get-date).getdatetimeformats()[45])] Downloading InSpec to $outFile"
-    Invoke-WebRequest -Uri $InSpecDownloadUri -TimeoutSec 120 -OutFile $outFile
+    try {
+        Invoke-WebRequest -Uri $InSpecDownloadUri -TimeoutSec 120 -OutFile $outFile
+    }
+    catch {
+        throw "Error occured downloading InSpec from $InSpecDownloadUri"
+    }
         
     $msiArguments = @(
         '/i'
@@ -65,7 +70,12 @@ function Install-InSpec {
         "/L*v `"$Env:TEMP/$InSpecPackage_Name.log`""
     )
     Write-Verbose "[$((get-date).getdatetimeformats()[45])] Installing InSpec with arguments: $msiArguments"
+    try {
     Start-Process -FilePath 'C:/Windows/System32/msiexec.exe' -ArgumentList $msiArguments -Wait -NoNewWindow
+    }
+    catch {
+        throw "Error occured while installing InSpec from $($Env:TEMP/$InSpecPackage_Name)"
+    }
     Write-Verbose "[$((get-date).getdatetimeformats()[45])] InSpec installation process ended"
 }
 
@@ -211,7 +221,7 @@ function Get-TargetResource {
         Install-InSpec $InSpecVersion $WindowsServerVersion
     }
 
-    $InSpecProfile_Path = "$env:SystemDrive:/ProgramData/GuestConfig/Configuration/$InSpecProfileName/Modules/$InSpecProfileName/"
+    $InSpecProfile_Path = "$env:SystemDrive:/ProgramData/GuestConfig/Configuration/$InSpecProfileName/$InSpecProfileName/"
 
     Invoke-InSpec $InSpecProfile_Path
     $InSpec = ConvertFrom-InSpec $InSpecProfile_Path

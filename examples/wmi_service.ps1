@@ -7,7 +7,7 @@ Configuration wmi_service
         {
             InSpecProfileName       = 'wmi_service'
             InSpecVersion           = '3.9.3'
-            WindowsServerVersion    = '2019'
+            WindowsServerVersion    = '2016'
         }
     }
 }

@@ -1,7 +1,7 @@
 instance of gcInSpec as $gcInSpec1ref
 {
 ResourceID = "[gcInSpec]wmi_service";
- WindowsServerVersion = "2019";
+ WindowsServerVersion = "2016";
  SourceInfo = "/Users/migreene/Git/gcinspec/examples/wmi_service.ps1::6::9::gcInSpec";
  InSpecProfileName = "wmi_service";
  ModuleName = "gcinspec";
