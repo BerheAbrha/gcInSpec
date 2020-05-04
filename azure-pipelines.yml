@@ -58,19 +58,8 @@ jobs:
           failOnStderr: true
           errorActionPreference: stop
           script: |
-            $modules = (Import-PowerShellDataFile "$env:BUILD_SOURCESDIRECTORY/gcInSpec.psd1").RequiredModules
-            $modules += @('PSScriptAnalyzer')
-            Install-Module -Name $modules -Force
-      - task: PowerShell@2
-        enabled: 'true'
-        displayName: Install Pester v5
-        inputs:
-          pwsh: 'true'
-          targetType: inline
-          failOnStderr: true
-          errorActionPreference: stop
-          script: |
-            Install-Module -Name 'Pester' -Force -AllowPreRelease
+            Install-Module 'GuestConfiguration', 'Pester' -AllowPreRelease -Force
+            Install-Module 'PSScriptAnalyzer' -Force
       - task: PowerShell@2
         enabled: 'true'
         displayName: Pester v5 unit tests
