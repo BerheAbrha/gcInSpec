@@ -2,9 +2,10 @@ instance of gcInSpec as $gcInSpec
 {
     ResourceID = "[gcInSpec]wmi_service";
     SourceInfo = "::1::56::gcinspec";
-    Name = "wmi_service";
+    ProfileName = "wmi_service";
+    InSpecVersion = "3.9.3"
     ModuleName = "gcInSpec";
-    ModuleVersion = "1.0.0.0";
+    ModuleVersion = "1.1.0";
     ConfigurationName = "wmi_service";
 };
 

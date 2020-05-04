@@ -4,3 +4,6 @@ inspec.zip
 testprofiles/*
 inspec/*
 scratch.*
+.vagrant/
+VagrantFile
+VagrantRun.ps1

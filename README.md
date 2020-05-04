@@ -12,6 +12,12 @@ this module will focus on audit of nodes running Windows.
 In the future, a single module should be compatible with both Windows and Linux,
 greatly simplifying the scenario of using custom profiles.
 
+> [!NOTE]
+> Recent versions of Chef software are under a new license.
+> Please review the [Chef InSpec downloads page](https://downloads.chef.io/inspec) for details.
+
+## Why use InSpec with Azure Policy?
+
 The benefit of combining your InSpec profiles with Azure Policy
 is gaining the ability to automatically audit all virtual machines
 across management groups (many subscriptions).
@@ -19,17 +25,17 @@ Results are available from the Guest Configuration resource provider,
 which we hope to validate with Chef Automate
 (community assistance would be greatly appreciated).
 
+### Parameter support
+
 Attribute support for Windows is currently work in progress
 however it is functional for Linux using the native provider.
 This means that parameters for InSpec are
 actually provided at run time by the parameters
 given in the ARM deployment files.
 
-For more information on using custom content
-with Azure Policy for auditing in-guest settings,
-see the
-[Request for Comments](https://github.com/microsoft/rfc_customguestconfig)
-project repository.
+## How-To
+
+
 
 # Contributing
 

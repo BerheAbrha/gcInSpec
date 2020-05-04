@@ -12,7 +12,7 @@
 RootModule = ''
 
 # Version number of this module.
-ModuleVersion = '1.0.0.0'
+ModuleVersion = '2.0.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -30,43 +30,13 @@ CompanyName = 'Microsoft Corporation'
 Copyright = '2019'
 
 # Description of the functionality provided by this module
-Description = 'Audits settings based on InSpec profile and returns results'
+Description = 'Audits settings based on InSpec profile and returns results. Please review the Chef Terms and Conditions for InSpec and license appropriately.'
 
 # Minimum version of the PowerShell engine required by this module
 PowerShellVersion = '5.1'
 
-# Name of the PowerShell host required by this module
-# PowerShellHostName = ''
-
-# Minimum version of the PowerShell host required by this module
-# PowerShellHostVersion = ''
-
-# Minimum version of Microsoft .NET Framework required by this module. This prerequisite is valid for the PowerShell Desktop edition only.
-# DotNetFrameworkVersion = ''
-
-# Minimum version of the common language runtime (CLR) required by this module. This prerequisite is valid for the PowerShell Desktop edition only.
-# CLRVersion = ''
-
-# Processor architecture (None, X86, Amd64) required by this module
-# ProcessorArchitecture = ''
-
 # Modules that must be imported into the global environment prior to importing this module
-# RequiredModules = @()
-
-# Assemblies that must be loaded prior to importing this module
-# RequiredAssemblies = @()
-
-# Script files (.ps1) that are run in the caller's environment prior to importing this module.
-# ScriptsToProcess = @()
-
-# Type files (.ps1xml) to be loaded when importing this module
-# TypesToProcess = @()
-
-# Format files (.ps1xml) to be loaded when importing this module
-# FormatsToProcess = @()
-
-# Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
-# NestedModules = @()
+RequiredModules = @(@{ModuleName='GuestConfiguration';ModuleVersion='1.20.0'})
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
 FunctionsToExport = ''
@@ -83,12 +53,6 @@ AliasesToExport = ''
 # DSC resources to export from this module
 DscResourcesToExport = 'gcInSpec'
 
-# List of all modules packaged with this module
-# ModuleList = @()
-
-# List of all files packaged with this module
-# FileList = @()
-
 # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
 PrivateData = @{
 
@@ -98,26 +62,28 @@ PrivateData = @{
         Tags = 'GuestConfiguration', 'DSC'
 
         # A URL to the license for this module.
-        # LicenseUri = ''
+        LicenseUri = 'https://github.com/microsoft/gcInSpec/blob/master/LICENSE'
 
         # A URL to the main website for this project.
-        # ProjectUri = ''
+        ProjectUri = 'https://github.com/microsoft/gcinspec'
 
         # A URL to an icon representing this module.
         # IconUri = ''
 
         # ReleaseNotes of this module
-        # ReleaseNotes = ''
+        ReleaseNotes = '
+        2.0.0
+        - Add support for declaring InSpec version
+        - Quality and refactoring
+        - Breaking changes: paramter names
+        
+        1.0.0.0
+         - Functional MVP for ChefConf demo
+        '
 
     } # End of PSData hashtable
 
 } # End of PrivateData hashtable
-
-# HelpInfo URI of this module
-# HelpInfoURI = ''
-
-# Default prefix for commands exported from this module. Override the default prefix using Import-Module -Prefix.
-# DefaultCommandPrefix = ''
 
 }
 
