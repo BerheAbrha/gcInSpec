@@ -58,7 +58,8 @@ jobs:
           failOnStderr: true
           errorActionPreference: stop
           script: |
-            Install-Module 'GuestConfiguration', 'Pester' -AllowPreRelease -Force
+            Install-Module 'GuestConfiguration' -AllowPreRelease -Force
+            Install-Module 'Pester' -AllowPreRelease -Force
             Install-Module 'PSScriptAnalyzer' -Force
       - task: PowerShell@2
         enabled: 'true'
