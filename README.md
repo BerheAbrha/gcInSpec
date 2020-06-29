@@ -1,6 +1,8 @@
 
 # gcInSpec module
 
+[![Build Status](https://dev.azure.com/guestconfiguration/gcinspec/_apis/build/status/microsoft.gcInSpec?branchName=master)](https://dev.azure.com/guestconfiguration/gcinspec/_build/latest?definitionId=27&branchName=master)
+
 This project offers a community supported module for
 [Azure Policy Guest Configuration](https://aka.ms/gcpol)
 to audit virtual machines in Azure using custom
@@ -34,7 +36,6 @@ actually provided at run time by the parameters
 given in the ARM deployment files.
 
 ## How-To
-
 
 
 # Contributing

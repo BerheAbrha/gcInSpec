@@ -12,7 +12,7 @@
 RootModule = ''
 
 # Version number of this module.
-ModuleVersion = '2.0.0'
+ModuleVersion = '2.1.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -36,7 +36,7 @@ Description = 'Audits settings based on InSpec profile and returns results. Plea
 PowerShellVersion = '5.1'
 
 # Modules that must be imported into the global environment prior to importing this module
-RequiredModules = 'GuestConfiguration'
+# RequiredModules = ''
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
 FunctionsToExport = ''
@@ -71,15 +71,7 @@ PrivateData = @{
         # IconUri = ''
 
         # ReleaseNotes of this module
-        ReleaseNotes = '
-        2.0.0
-        - Add support for declaring InSpec version
-        - Quality and refactoring
-        - Breaking changes: paramter names
-        
-        1.0.0.0
-         - Functional MVP for ChefConf demo
-        '
+        ReleaseNotes = 'https://github.com/microsoft/gcinspec/blob/master/changelog.md'
 
     } # End of PSData hashtable
 
