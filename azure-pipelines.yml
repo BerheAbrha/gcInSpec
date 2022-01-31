@@ -54,7 +54,7 @@ jobs:
       - task: PowerShell@2
         displayName: Install modules
         inputs:
-          pwsh: 'true'
+          pwsh: true
           targetType: inline
           failOnStderr: true
           errorActionPreference: stop
@@ -63,10 +63,10 @@ jobs:
             Install-Module 'Pester' -AllowPreRelease -Force
             Install-Module 'PSScriptAnalyzer' -Force
       - task: PowerShell@2
-        enabled: 'true'
+        enabled: true
         displayName: Pester v5 unit tests
         inputs:
-          pwsh: 'true'
+          pwsh: true
           targetType: inline
           failOnStderr: true
           errorActionPreference: stop
@@ -86,7 +86,7 @@ jobs:
       - task: PowerShell@2
         displayName: Stage module artifact
         inputs:
-          pwsh: 'true'
+          pwsh: true
           targetType: inline
           failOnStderr: true
           errorActionPreference: stop
